@@ -1,2 +1,2 @@
 # SixthStreet-Assessment
-Case Study for Suxth Street
+Case Study for Sixth Street
