@@ -52,6 +52,7 @@ cdk-s3-lambda-processor/
 │   ├── architecture.png                # Embedded in this README
 │   └── architecture.excalidraw         # Excalidraw source (optional)
 ├── .github/workflows/ci.yml            # PR + main: pytest + cdk synth
+├── .github/workflows/deploy.yml        # Push to main: cdk deploy via OIDC
 ├── .gitignore
 ├── LICENSE
 ├── CLAUDE.md                           # Instructions for Claude Code
@@ -116,7 +117,7 @@ aws s3 cp sample.txt s3://<BUCKET_NAME_FROM_OUTPUT>/sample.txt
 View the Lambda's log output:
 
 ```bash
-aws logs tail /aws/lambda/<FUNCTION_NAME_FROM_OUTPUT> --follow
+aws logs tail <LOG_GROUP_NAME_FROM_OUTPUT> --follow
 ```
 
 You should see structured JSON entries similar to:
@@ -256,10 +257,6 @@ talking point rather than a missing requirement.
   control and auditability, at the cost of KMS API charges.
 - **cdk-nag.** Add `cdk-nag` to the CDK app and the CI pipeline to
   enforce AWS Well-Architected security rules at synth time.
-- **OIDC-based deploy workflow.** A separate GitHub Actions workflow that
-  assumes an AWS IAM role via OIDC (no long-lived credentials) and runs
-  `cdk deploy` on pushes to `main`. The current CI runs synth and tests
-  only.
 - **Multi-environment configuration.** Parameterize the stack on
   environment (dev / staging / prod) via `cdk.json` context or CDK
   `Stage` constructs.
